@@ -11,15 +11,16 @@ struct LogRideView: View {
     var isPresentedAsSheet: Bool = false
 
     @State private var rideDate = Date()
-    @State private var distanceInput: String = ""
+    @State private var distanceValue: Double? = nil
     @State private var note: String = ""
     @State private var showingAlert = false
     @State private var alertMessage = ""
+    @State private var showingSuccess = false
+
+    @FocusState private var isDistanceFocused: Bool
 
     private var distanceInMiles: Double? {
-        guard let value = Double(distanceInput.replacingOccurrences(of: ",", with: ".")) else {
-            return nil
-        }
+        guard let value = distanceValue else { return nil }
         return preferredUnit == .miles ? value : value.toMiles()
     }
 
@@ -33,10 +34,14 @@ struct LogRideView: View {
                     HStack {
                         Text("Distance")
                         Spacer()
-                        TextField("0", text: $distanceInput)
+                        TextField("0", value: $distanceValue, format: .number)
+                            .focused($isDistanceFocused)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
                             .frame(width: 100)
+                            .onTapGesture {
+                                isDistanceFocused = true
+                            }
                         Text(preferredUnit.abbreviation)
                             .foregroundStyle(.secondary)
                     }
@@ -66,10 +71,24 @@ struct LogRideView: View {
                     }
                 }
             }
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        isDistanceFocused = false
+                    }
+                }
+            }
             .alert("Couldn't save ride", isPresented: $showingAlert) {
                 Button("OK", role: .cancel) {}
             } message: {
                 Text(alertMessage)
+            }
+            .alert("Ride logged!", isPresented: $showingSuccess) {
+                Button("OK", role: .cancel) {}
+            }
+            .onDisappear {
+                isDistanceFocused = false
             }
         }
     }
@@ -89,16 +108,24 @@ struct LogRideView: View {
 
         modelContext.insert(ride)
 
+        do {
+            try modelContext.save()
+        } catch {
+            alertMessage = "Failed to save ride: \(error.localizedDescription)"
+            showingAlert = true
+            return
+        }
+
         // Reset form
-        distanceInput = ""
+        distanceValue = nil
         note = ""
         rideDate = .now
+        isDistanceFocused = false
 
         if isPresentedAsSheet {
             dismiss()
         } else {
-            // Optional feedback when used from the dedicated tab
-            // In a real app you could trigger a toast here
+            showingSuccess = true
         }
     }
 }

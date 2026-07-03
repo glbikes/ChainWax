@@ -39,7 +39,7 @@ struct DashboardView: View {
                 VStack(spacing: 28) {
                     // Hero current miles
                     VStack(spacing: 8) {
-                        Text("Miles since last wax")
+                        Text("\(preferredUnit.fullName) since last wax")
                             .font(.headline)
                             .foregroundStyle(.secondary)
 
@@ -101,13 +101,13 @@ struct DashboardView: View {
                     // Summary cards
                     VStack(spacing: 16) {
                         StatCard(
-                            title: "Total Miles (All Time)",
+                            title: "Total \(preferredUnit.fullName) (All Time)",
                             value: Formatters.formatDistance(totalMilesAllTime, in: preferredUnit),
                             icon: "sum"
                         )
 
                         StatCard(
-                            title: "Avg Miles per Wax",
+                            title: "Avg \(preferredUnit.fullName) per Wax",
                             value: Formatters.formatDistance(averageInterval, in: preferredUnit),
                             icon: "chart.bar"
                         )

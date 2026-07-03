@@ -12,11 +12,6 @@ struct ContentView: View {
                     Label("Dashboard", systemImage: "house")
                 }
 
-            LogRideView(preferredUnit: preferredUnit)
-                .tabItem {
-                    Label("Log Ride", systemImage: "plus.circle")
-                }
-
             HistoryView(preferredUnit: $preferredUnit)
                 .tabItem {
                     Label("History", systemImage: "clock.arrow.circlepath")

@@ -82,7 +82,7 @@ struct HistoryView: View {
                         Text("No rides logged yet.")
                             .foregroundStyle(.secondary)
                     } else {
-                        ForEach(rides.prefix(20)) { ride in
+                        ForEach(Array(rides.prefix(20))) { ride in
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(Formatters.dateFormatter.string(from: ride.date))
@@ -114,7 +114,9 @@ struct HistoryView: View {
                 }
 
                 if !rides.isEmpty || !waxings.isEmpty {
-                    EditButton()
+                    ToolbarItem(placement: .topBarTrailing) {
+                        EditButton()
+                    }
                 }
             }
             .sheet(isPresented: $showingPastWaxDatePicker) {

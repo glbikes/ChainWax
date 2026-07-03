@@ -51,12 +51,12 @@ enum UnitSystem: String, CaseIterable, Codable {
 // MARK: - Display Models
 
 struct WaxInterval: Identifiable {
-    let id = UUID()
+    let id: UUID = UUID()
     let startDate: Date
     let endDate: Date
     let distanceMiles: Double
 
-    var distance(in unit: UnitSystem) -> Double {
+    func distance(in unit: UnitSystem) -> Double {
         unit == .miles ? distanceMiles : distanceMiles.toKilometers()
     }
 
@@ -92,7 +92,7 @@ struct ChainWaxStats {
         let lastWax = lastWaxDate(from: waxings)
         return rides
             .filter { $0.date > lastWax }
-            .reduce(0) { $0 + $1.distanceMiles }
+            .reduce(0.0) { $0 + $1.distanceMiles }
     }
 
     /// All completed wax intervals (sorted newest first)
@@ -102,7 +102,7 @@ struct ChainWaxStats {
         guard sortedWaxings.count >= 1 else {
             // No waxings yet — treat everything as one open interval starting from first ride or distant past
             let firstRideDate = rides.map(\.date).min() ?? Date.distantPast
-            let total = rides.reduce(0) { $0 + $1.distanceMiles }
+            let total = rides.reduce(0.0) { $0 + $1.distanceMiles }
             return [WaxInterval(startDate: firstRideDate, endDate: Date(), distanceMiles: total)]
         }
 
@@ -129,12 +129,12 @@ struct ChainWaxStats {
             )
         }
 
-        return intervals.reversed()   // Newest first
+        return Array(intervals.reversed())   // Newest first
     }
 
     /// Total lifetime miles ridden (all time)
     static func totalMiles(rides: [Ride]) -> Double {
-        rides.reduce(0) { $0 + $1.distanceMiles }
+        rides.reduce(0.0) { $0 + $1.distanceMiles }
     }
 
     /// Average miles per completed wax interval
@@ -170,4 +170,13 @@ struct Formatters {
         f.timeStyle = .none
         return f
     }()
+}
+
+// MARK: - Strava
+
+struct StravaActivity: Codable {
+    let name: String?
+    let distance: Double // in meters
+    let type: String
+    let start_date: Date
 }

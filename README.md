@@ -85,8 +85,8 @@ The app should compile cleanly with zero external dependencies.
 - Edit and delete entries
 - Multiple bikes
 - CSV export
-- Strava integration
 - Wax reminder notifications
+- (Strava integration added)
 
 ---
 
