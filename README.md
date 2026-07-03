@@ -116,12 +116,13 @@ This way you can easily sync changes between machines going forward.
 
 ### Option 2: Quick transfer (one-time)
 
-A zip archive has been created for you:
+Archives have been created for you in this directory:
 
-**`/home/glb/Projects/ChainWax.zip`**
+- `/home/glb/Projects/ChainWax.zip` (12 KB)
+- `/home/glb/Projects/ChainWax.tar.gz` (9.5 KB)
 
-- Copy or download this zip to your MacBook.
-- Unzip it.
+- Copy or download the archive to your MacBook.
+- Unzip / untar it.
 - Follow the **"Creating the Xcode Project"** + **"How to Build"** sections in this README.
 
 ### Option 3: Manual file copy
