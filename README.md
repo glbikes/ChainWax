@@ -90,6 +90,55 @@ The app should compile cleanly with zero external dependencies.
 
 ---
 
+## Continuing Development on Your MacBook
+
+Since this project was created on a Linux machine, here's the easiest ways to move it:
+
+### Option 1: Recommended — Use Git + GitHub (Best for ongoing work)
+
+1. On this Linux machine (or here), push the code to GitHub:
+   ```bash
+   # Create a new repo on GitHub first (https://github.com/new)
+   git remote add origin https://github.com/YOUR_USERNAME/ChainWax.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+2. On your **MacBook**:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/ChainWax.git
+   cd ChainWax
+   ```
+
+3. Then follow the **"Creating the Xcode Project"** instructions above.
+
+This way you can easily sync changes between machines going forward.
+
+### Option 2: Quick transfer (one-time)
+
+A zip archive has been created for you:
+
+**`/home/glb/Projects/ChainWax.zip`**
+
+- Copy or download this zip to your MacBook.
+- Unzip it.
+- Follow the **"Creating the Xcode Project"** + **"How to Build"** sections in this README.
+
+### Option 3: Manual file copy
+
+Just copy all the `.swift` files + the `Views/` folder to your MacBook and drag them into the new Xcode project.
+
+### Once on your MacBook
+
+- Always work inside the Xcode project you create.
+- The source files here are the "source of truth" for the logic and views.
+- You can keep editing the `.swift` files directly (Xcode will pick up changes).
+- When you make changes on the Mac, you can copy the modified files back or (better) use Git.
+
+**Pro tip:** Once you're on the Mac, consider using Xcode's built-in Source Control features.
+
+---
+
 **Next step for you**: Once the files are here, copy them into Xcode and build.
 
 Let me know if you want to adjust anything (UI style, extra fields, different default target, etc.) as we go!
