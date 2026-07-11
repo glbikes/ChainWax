@@ -99,5 +99,5 @@ xcuserdata/
 # Project specific
 # Add any build artifacts or large files here if needed
 
-# Local Xcode project (created inside repo for development per transfer instructions)
+# Local Xcode project folder (not tracked; sources live at repo root)
 ChainWax/

@@ -19,6 +19,18 @@ struct SettingsView: View {
     @State private var isSyncing = false
     @State private var syncMessage = ""
 
+    private final class PresentationContextProvider: NSObject, ASWebAuthenticationPresentationContextProviding {
+        func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+            guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = scene.windows.first(where: { $0.isKeyWindow }) else {
+                return ASPresentationAnchor()
+            }
+            return window
+        }
+    }
+
+    @State private var presentationContextProvider = PresentationContextProvider()
+
     private var totalMiles: Double {
         ChainWaxStats.totalMiles(rides: rides)
     }
@@ -197,7 +209,7 @@ struct SettingsView: View {
             }
         }
 
-        session.presentationContextProvider = self
+        session.presentationContextProvider = presentationContextProvider
         session.start()
     }
 
@@ -284,15 +296,7 @@ struct SettingsView: View {
     }
 }
 
-extension SettingsView: ASWebAuthenticationPresentationContextProviding {
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = scene.windows.first(where: { $0.isKeyWindow }) else {
-            return ASPresentationAnchor()
-        }
-        return window
-    }
-}
+
 
 #Preview {
     SettingsView(
